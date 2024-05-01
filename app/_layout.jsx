@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useEffect } from "react";
-import { Slot, SplashScreen } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 
 import { useFonts } from "expo-font";
 
@@ -27,20 +27,10 @@ const RootLayout = () => {
   if (!fontLoaded && !error) return null;
 
   return (
-    <View style={styles.container}>
-      <Text>Root Layout</Text>
-      <Slot />
-    </View>
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+    </Stack>
   );
 };
 
 export default RootLayout;
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

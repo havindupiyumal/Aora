@@ -1,10 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export const SignOut = () => {
+const SignOut = () => {
   return (
     <View>
       <Text>sign-out.screen</Text>
     </View>
   );
 };
+
+export default SignOut;
