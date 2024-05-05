@@ -10,11 +10,14 @@ import { Link } from "expo-router";
 import CustomButton from "../components/custom-button.component";
 import FormField from "../components/form-field.component";
 
-const SignIn = () => {
+const SignUp = () => {
+  const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const changeEmail = (value) => setEmail(value);
 
   const changeUsername = (value) => setUserName(value);
 
@@ -40,13 +43,23 @@ const SignIn = () => {
             resizeMode="contain"
           />
           <Text className="text-2xl text-white text-semibold mt-10 font-psemibold">
-            Log in
+            Sign up
           </Text>
 
           <FormField
-            fieldName="Email"
+            fieldName="Username"
             value={userName}
             handleChange={changeUsername}
+            type="text"
+            otherStyles="mt-7"
+            keyboardType="username"
+            placeholder="Your unique unername"
+          />
+
+          <FormField
+            fieldName="Email"
+            value={email}
+            handleChange={changeEmail}
             type="email"
             otherStyles="mt-7"
             keyboardType="email-address"
@@ -64,7 +77,7 @@ const SignIn = () => {
           />
 
           <CustomButton
-            title="Sign In"
+            title="Sign Up"
             handlePress={handleSubmit}
             containerStyles="mt-7"
             isLoading={isSubmitting}
@@ -72,13 +85,13 @@ const SignIn = () => {
 
           <View className="justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">
-              Dont't have an account
+              Already have an account?
             </Text>
             <Link
               className="text-lg font-psemibold text-secondary"
-              href="/sign-up.screen"
+              href="/sign-in.screen"
             >
-              Sign Up
+              Log In
             </Link>
           </View>
         </View>
@@ -88,4 +101,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
