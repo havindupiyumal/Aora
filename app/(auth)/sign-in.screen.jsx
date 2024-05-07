@@ -1,16 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
 import { images } from "../../constants";
 
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 import CustomButton from "../components/custom-button.component";
 import FormField from "../components/form-field.component";
 
+import { signIn, getCurrentLoggedInUserDocument } from "../../lib/appwrite";
+
+import { UserContext } from "../../context/user.context";
+
 const SignIn = () => {
+  const { setCurrentUser, setSession } = useContext(UserContext);
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,8 +26,26 @@ const SignIn = () => {
 
   const changePassword = (value) => setPassword(value);
 
-  const handleSubmit = () => {
-    //alert("hello");
+  const handleSubmit = async () => {
+    try {
+      if (!userName || !password)
+        alert("Username and password cannot be empty!!!");
+
+      setIsSubmitting(true);
+
+      const session = await signIn(userName, password);
+
+      const currentUser = await getCurrentLoggedInUserDocument();
+
+      setCurrentUser(currentUser);
+      setSession(session);
+
+      router.replace("/home.screen");
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   console.log(userName, password);

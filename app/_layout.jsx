@@ -4,6 +4,8 @@ import { Slot, SplashScreen, Stack } from "expo-router";
 
 import { useFonts } from "expo-font";
 
+import { UserProvider } from "../context/user.context";
+
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
@@ -27,12 +29,14 @@ const RootLayout = () => {
   if (!fontLoaded && !error) return null;
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      {/* <Stack.Screen name="/search/[query]" options={{ headerShown: false }} /> */}
-    </Stack>
+    <UserProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="/search/[query]" options={{ headerShown: false }} /> */}
+      </Stack>
+    </UserProvider>
   );
 };
 

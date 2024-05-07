@@ -1,16 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
 import { images } from "../../constants";
 
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 import CustomButton from "../components/custom-button.component";
 import FormField from "../components/form-field.component";
 
+import { UserContext } from "../../context/user.context";
+
+import { addNewUser, signIn } from "../../lib/appwrite";
+
 const SignUp = () => {
+  const { setCurrentUser, setSession } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -23,11 +29,30 @@ const SignUp = () => {
 
   const changePassword = (value) => setPassword(value);
 
-  const handleSubmit = () => {
-    //alert("hello");
-  };
+  const handleSubmit = async () => {
+    try {
+      if (!email || !userName || !password) {
+        alert("All fields are required!!!");
+        return;
+      }
+      setIsSubmitting(true);
+      const response = await addNewUser(email, password, userName);
+      console.log(response);
 
-  console.log(userName, password);
+      const session = await signIn(email, password);
+
+      setCurrentUser(response);
+      setSession(session);
+
+      alert(`Welcome ${userName} !.`);
+
+      router.replace("/home.screen");
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">

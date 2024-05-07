@@ -8,6 +8,7 @@ const CustomButton = ({
   textStyles,
   isLoading,
 }) => {
+  console.log(isLoading);
   return (
     <TouchableOpacity
       className={`bg-secondary rounded-xl min-h-[62px] justify-center items-center ${containerStyles} ${
