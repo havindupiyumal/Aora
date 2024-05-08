@@ -48,8 +48,6 @@ const SignIn = () => {
     }
   };
 
-  console.log(userName, password);
-
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView

@@ -13,24 +13,11 @@ import CustomButton from "./components/custom-button.component";
 import { UserContext } from "../context/user.context";
 
 const App = () => {
-  const { currentUser } = useContext(UserContext);
-
-  const [isSubmitting, setIsSubmitting] = useState(true);
+  const { currentUser, isLoading } = useContext(UserContext);
 
   // if a user is logged in, go to home screen
   useEffect(() => {
-    try {
-      console.log("Index Current User", currentUser);
-      if (currentUser) {
-        router.replace("/home.screen");
-      }
-
-      if (currentUser == null || currentUser == undefined)
-        setIsSubmitting(false);
-    } catch (error) {
-    } finally {
-      console.log("finally");
-    }
+    if (currentUser) router.replace("/home.screen");
   }, [currentUser]);
 
   return (
@@ -72,7 +59,7 @@ const App = () => {
             title="Continue With Email"
             handlePress={() => router.push("/sign-in.screen")}
             containerStyles="w-full mt-7"
-            isLoading={isSubmitting}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>
