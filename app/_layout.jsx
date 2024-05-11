@@ -5,6 +5,7 @@ import { Slot, SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 
 import { UserProvider } from "../context/user.context";
+import { VideoProvider } from "../context/videos.context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,12 +31,14 @@ const RootLayout = () => {
 
   return (
     <UserProvider>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        {/* <Stack.Screen name="/search/[query]" options={{ headerShown: false }} /> */}
-      </Stack>
+      <VideoProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          {/* <Stack.Screen name="/search/[query]" options={{ headerShown: false }} /> */}
+        </Stack>
+      </VideoProvider>
     </UserProvider>
   );
 };

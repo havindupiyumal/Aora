@@ -37,7 +37,7 @@ const SignUp = () => {
       }
       setIsSubmitting(true);
       const response = await addNewUser(email, password, userName);
-      console.log(response);
+      console.log("handleSubmit await addNewUser", response);
 
       const session = await signIn(email, password);
 
