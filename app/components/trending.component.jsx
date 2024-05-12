@@ -1,11 +1,13 @@
+import { useState } from "react";
+import { ResizeMode, Video } from "expo-av";
+import * as Animatable from "react-native-animatable";
 import {
   FlatList,
-  TouchableOpacity,
-  ImageBackground,
   Image,
+  ImageBackground,
+  TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
-import * as Animatable from "react-native-animatable";
+
 import { icons } from "../../constants";
 
 const zoomIn = {
@@ -13,20 +15,20 @@ const zoomIn = {
     scale: 0.9,
   },
   1: {
-    scale: 1.2,
+    scale: 1,
   },
 };
 
 const zoomOut = {
   0: {
-    scale: 1.2,
+    scale: 1,
   },
   1: {
     scale: 0.9,
   },
 };
 
-export const TrendingItem = ({ activeItem, item }) => {
+const TrendingItem = ({ activeItem, item }) => {
   const [play, setPlay] = useState(false);
 
   return (
@@ -81,7 +83,6 @@ export const Trending = ({ posts }) => {
       setActiveItem(viewableItems[0].key);
     }
   };
-
   return (
     <FlatList
       data={posts}
