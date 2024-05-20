@@ -4,6 +4,7 @@ import {
   getLatestVideosFromDB,
   searchVideosFromDB,
   searchUserVideosFromDB,
+  addNewVideoToDB,
 } from "../lib/appwrite";
 
 const INITIAL_STATE = {
@@ -39,6 +40,14 @@ export const VideoProvider = ({ children }) => {
   const [currentUserVideos, setCurrentUserVideos] = useState(null);
   const [isCurrentUserVideosLoading, setIsCurrentUserVideosLoading] =
     useState(false);
+
+  const addNewVideo = async (formData, user) => {
+    try {
+      return await addNewVideoToDB(formData, user);
+    } catch (error) {
+      console.log("addNewVideo", error);
+    }
+  };
 
   const getCurrentUserVideos = async (user) => {
     try {
@@ -119,6 +128,7 @@ export const VideoProvider = ({ children }) => {
     currentUserVideos,
     isCurrentUserVideosLoading,
     getCurrentUserVideos,
+    addNewVideo,
   };
 
   return (

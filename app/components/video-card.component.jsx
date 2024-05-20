@@ -1,10 +1,15 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ResizeMode, Video } from "expo-av";
 import { icons } from "../../constants";
 
+import { updateBookmarkVidoesOfAuthUser } from "../../lib/appwrite";
+
+import { UserContext } from "../../context/user.context";
+
 export const VideoCard = ({
   video: {
+    $id,
     title,
     thumbnail,
     video,
@@ -15,6 +20,16 @@ export const VideoCard = ({
 
   const startPlaying = () => setPlay(true);
 
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+
+  const toggleBookmark = async () => {
+    try {
+      const response = await updateBookmarkVidoesOfAuthUser(currentUser, $id);
+      setCurrentUser(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     video && (
       <View className="flex-col items-center px-4 mb-14">
@@ -43,11 +58,19 @@ export const VideoCard = ({
             </View>
           </View>
           <View className="pt-2">
-            <Image
-              source={icons.menu}
-              className="w-5 h-5"
-              resizeMode="contain"
-            />
+            <TouchableOpacity onPress={toggleBookmark}>
+              <Image
+                source={
+                  currentUser?.bookmarked_videos.some(
+                    (video) => video.$id === $id
+                  )
+                    ? icons.bookmarkFilled
+                    : icons.bookmark
+                }
+                className="w-5 h-5"
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
           </View>
         </View>
 

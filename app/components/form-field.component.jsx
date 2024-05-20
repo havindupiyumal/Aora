@@ -11,6 +11,7 @@ const FormField = ({
   type,
   otherStyles,
   keyboardType,
+  handleOnChange,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
