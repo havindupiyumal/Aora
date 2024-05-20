@@ -3,6 +3,7 @@ import {
   getVideosFromDB,
   getLatestVideosFromDB,
   searchVideosFromDB,
+  searchUserVideosFromDB,
 } from "../lib/appwrite";
 
 const INITIAL_STATE = {
@@ -18,6 +19,10 @@ const INITIAL_STATE = {
   setSearchQuery: () => null,
   filteredVideos: null,
   setFilteredVideos: () => null,
+  currentUserVideos: null,
+  setCurrentUserVideos: () => null,
+  isCurrentUserVideosLoading: false,
+  setIsCurrentUserVideosLoading: () => null,
 };
 
 export const VideoContext = createContext(INITIAL_STATE);
@@ -26,9 +31,26 @@ export const VideoProvider = ({ children }) => {
   const [videos, setVideos] = useState(null);
   const [latestVideos, setLatestVideos] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredVideos, setFilteredVideos] = useState([]);
+  const [filteredVideos, setFilteredVideos] = useState(null);
   const [isFilteredVideosLoading, setIsFilteredVideosLoading] = useState(false);
+
+  const [currentUserVideos, setCurrentUserVideos] = useState(null);
+  const [isCurrentUserVideosLoading, setIsCurrentUserVideosLoading] =
+    useState(false);
+
+  const getCurrentUserVideos = async (user) => {
+    try {
+      setIsCurrentUserVideosLoading(true);
+      const videos = await searchUserVideosFromDB(user);
+      setCurrentUserVideos(videos);
+    } catch (error) {
+      console.log("Video Context: getCurrentUserVideoss", error);
+    } finally {
+      setIsCurrentUserVideosLoading(false);
+    }
+  };
 
   const getFilteredVideos = async (query) => {
     try {
@@ -94,6 +116,9 @@ export const VideoProvider = ({ children }) => {
     filteredVideos,
     setFilteredVideos,
     isFilteredVideosLoading,
+    currentUserVideos,
+    isCurrentUserVideosLoading,
+    getCurrentUserVideos,
   };
 
   return (

@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   getCurrentLoggedInUserDocument,
   getCurrentUserSession,
+  signOutAuthUser,
 } from "../lib/appwrite";
 
 const INITIAL_STATE = {
